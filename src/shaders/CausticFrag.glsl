@@ -2,7 +2,6 @@
 
 varying vec3 vWorldPos;
 varying vec3 vViewDir;
-varying vec3 vNormal;
 
 uniform vec3 color1;
 uniform vec3 color2;
