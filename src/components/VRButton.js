@@ -4,75 +4,41 @@ const THREE = AFRAME.THREE;
 export default {
   init: function () {
     this.el.setAttribute("vr-mode-ui", "enabled: false");
+    this.shouldDelay = false;
+
+    let mql = window.matchMedia("(max-width: 768px)");
+
+    this.isMobile = mql.matches;
 
     if ("xr" in navigator) {
       navigator.xr.isSessionSupported("immersive-vr").then((supported) => {
         if (supported) {
           // Only show VR button if VR mode is supported
           this.el.setAttribute("vr-mode-ui", "enabled: true");
+          this.shouldDelay = true;
+          this.loadbuftime = 5000;
+        } else if (this.isMobile) {
+          this.shouldDelay = true;
+          this.loadbuftime = 5000;
+        } else {
+          this.startLoading();
+          this.loadbuftime = 0;
         }
       });
+    } else {
+      if (this.isMobile) {
+        this.shouldDelay = true;
+        this.loadbuftime = 5000;
+      } else {
+        this.startLoading();
+        this.loadbuftime = 0;
+      }
     }
 
     this.entities = [
       /**
-       * VIDEOS
-       */
-      [
-        ["gltf-part", "src: #evironment; part: 29_Harddrive1"],
-        ["video", "src: #harddrive-29; triggerRadius: 4"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 37_Emilia_Wingfield"],
-        ["video", "src: #emilia_wingfield-37"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 31_Alex_Bois"],
-        ["video", "src: #alex_bois-31"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 02_Flora"],
-        ["video", "src: #flora-02"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 10_Bram_smiley"],
-        ["video", "src: #bram_smiley-10"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 43_Joel_Scott"],
-        ["video", "src: #joel_scott-43"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_01"],
-        ["video", "src: #louise_silfversparre_34_01"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_02"],
-        ["video", "src: #louise_silfversparre_34_02"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_03"],
-        ["video", "src: #louise_silfversparre_34_03"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_04"],
-        ["video", "src: #louise_silfversparre_34_04"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_05"],
-        ["video", "src: #louise_silfversparre_34_05"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_06"],
-        ["video", "src: #louise_silfversparre_34_06"],
-      ],
-      [
-        ["gltf-part", "src: #evironment; part: 1000_Rachel_Bungey_03"],
-        ["video", "src: #rachel_bungey_03; triggerRadius: 4"],
-      ],
-      /**
-       * IMAGES
-       */
+ * IMAGES
+ */
       [
         ["cc-material", ""],
         ["gltf-part", "src: #evironment; part: 01_Ben_Clark"],
@@ -297,10 +263,65 @@ export default {
         ["cc-material", ""],
         ["gltf-part", "src: #evironment; part: 1000_Rachel_Bungey_02"],
       ],
+      /**
+       * VIDEOS
+       */
+      [
+        ["gltf-part", "src: #evironment; part: 29_Harddrive1"],
+        ["video", "src: #harddrive-29; triggerRadius: 4"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 37_Emilia_Wingfield"],
+        ["video", "src: #emilia_wingfield-37"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 31_Alex_Bois"],
+        ["video", "src: #alex_bois-31"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 02_Flora"],
+        ["video", "src: #flora-02"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 10_Bram_smiley"],
+        ["video", "src: #bram_smiley-10"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 43_Joel_Scott"],
+        ["video", "src: #joel_scott-43"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_01"],
+        ["video", "src: #louise_silfversparre_34_01"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_02"],
+        ["video", "src: #louise_silfversparre_34_02"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_03"],
+        ["video", "src: #louise_silfversparre_34_03"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_04"],
+        ["video", "src: #louise_silfversparre_34_04"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_05"],
+        ["video", "src: #louise_silfversparre_34_05"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 34_Louise_Silfversparre_06"],
+        ["video", "src: #louise_silfversparre_34_06"],
+      ],
+      [
+        ["gltf-part", "src: #evironment; part: 1000_Rachel_Bungey_03"],
+        ["video", "src: #rachel_bungey_03; triggerRadius: 4"],
+      ],
     ];
     this.startedLoading = false;
   },
-  startLoading : function () {
+  startLoading: function () {
     for (let i = 0; i < this.entities.length; i++) {
       const scene = document.querySelector("a-scene");
       const aEntity = document.createElement("a-entity");
@@ -312,16 +333,22 @@ export default {
         aEntity.setAttribute(name, value);
       }
 
+      let loadbuftime = this.loadbuftime;
+      if(i <= 56){
+        loadbuftime  = i * this.loadbuftime/10;
+      } else {
+        loadbuftime = 56 * (this.loadbuftime/10) + (i-56) * this.loadbuftime;
+      }
+
       setTimeout(() => {
         console.log("[D] Appending a-entity", aEntity);
         scene.appendChild(aEntity);
-      }, 10000 + 1000 * i);
+      }, this.loadbuftime * 2 + loadbuftime);
     }
   },
-  tick : function () {
-    if(window.loadedAll && !this.startedLoading) {
+  tick: function () {
+    if (window.loadedAll && !this.startedLoading && this.shouldDelay) {
       this.startedLoading = true;
-      console.log("startedloading")
       this.startLoading();
     }
   }

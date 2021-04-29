@@ -23,7 +23,7 @@ export default {
       });
 
       this.mesh.material = mat;
-      this.mesh.material.needUpdate = true;
+      this.mesh.material.needsUpdate = true;
     };
 
     // HACK (Kirill): Since we appending videos to the scene later sometimes object3dset is already happened
