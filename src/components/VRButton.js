@@ -14,7 +14,7 @@ export default {
       });
     }
 
-    const entities = [
+    this.entities = [
       /**
        * VIDEOS
        */
@@ -298,13 +298,15 @@ export default {
         ["gltf-part", "src: #evironment; part: 1000_Rachel_Bungey_02"],
       ],
     ];
-
-    for (let i = 0; i < entities.length; i++) {
+    this.startedLoading = false;
+  },
+  startLoading : function () {
+    for (let i = 0; i < this.entities.length; i++) {
       const scene = document.querySelector("a-scene");
       const aEntity = document.createElement("a-entity");
 
-      for (let j = 0; j < entities[i].length; j++) {
-        const component = entities[i][j];
+      for (let j = 0; j < this.entities[i].length; j++) {
+        const component = this.entities[i][j];
         const [name, value] = component;
 
         aEntity.setAttribute(name, value);
@@ -313,7 +315,14 @@ export default {
       setTimeout(() => {
         console.log("[D] Appending a-entity", aEntity);
         scene.appendChild(aEntity);
-      }, 1000 * i);
+      }, 10000 + 1000 * i);
     }
   },
+  tick : function () {
+    if(window.loadedAll && !this.startedLoading) {
+      this.startedLoading = true;
+      console.log("startedloading")
+      this.startLoading();
+    }
+  }
 };

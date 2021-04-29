@@ -56,6 +56,7 @@ export default {
         this.el.sceneEl.emit("chrome-mat-set",{value: this.mesh.name})
         this.shouldEmitEvent = false;
       }
+      window.loadedAll = false;
     }
   },
 };

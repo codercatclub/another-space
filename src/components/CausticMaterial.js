@@ -116,8 +116,13 @@ export default {
   },
 
   tick: function (time, timeDelta) {
-    this.materialShaders.forEach((shader) => {
-      shader.uniforms.timeMsec.value = time/20000;
-    });
+    if (this.materialShaders.length > 0) {
+      window.loadedAll = true;
+      this.materialShaders.forEach((shader) => {
+        shader.uniforms.timeMsec.value = time/20000;
+      });
+    } else {
+      window.loadedAll = false;
+    }
   },
 };

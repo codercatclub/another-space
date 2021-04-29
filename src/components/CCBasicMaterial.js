@@ -129,7 +129,6 @@ export default {
     if (this.materialShaders.length <= 0) {
       return;
     }
-
     let key;
     for (key in data) {
       let val = data[key]
@@ -145,9 +144,12 @@ export default {
 
   tick: function (time, timeDelta) {
     if (this.materialShaders.length > 0) {
+      window.loadedAll = true;
       this.materialShaders.forEach((shader) => {
         shader.uniforms.timeMsec.value = time/20000;
       });
+    } else {
+      window.loadedAll = false;
     }
   },
 };

@@ -7,9 +7,7 @@ export default {
     triggerRadius: { default: 2 },
   },
 
-  update: function () {
-    this.mesh = null;
-
+  init: function () {
     this.mesh = this.el.getObject3D("mesh");
 
     const applyVideoTexture = () => {
