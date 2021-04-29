@@ -343,7 +343,7 @@ export default {
       setTimeout(() => {
         console.log("[D] Appending a-entity", aEntity);
         scene.appendChild(aEntity);
-      }, this.loadbuftime * 2 + loadbuftime);
+      },loadbuftime);
     }
   },
   tick: function () {
