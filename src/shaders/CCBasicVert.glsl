@@ -3,7 +3,6 @@
 #include <uv2_pars_vertex>
 #include <envmap_pars_vertex>
 #include <color_pars_vertex>
-@import ./FogVertPars;
 #include <morphtarget_pars_vertex>
 #include <skinning_pars_vertex>
 #include <logdepthbuf_pars_vertex>
@@ -15,7 +14,10 @@ varying vec3 vViewDir;
 varying vec3 vNormal;
 #endif
 
+#ifdef CAUSTIC
 varying float vInwardFacing;
+varying vec3 vWorldPos;
+#endif
 
 void main() {
 	#include <uv_vertex>
@@ -43,7 +45,6 @@ void main() {
 
 	#include <clipping_planes_vertex>
 	#include <envmap_vertex>
-	@import ./FogVert;
 
 	#ifdef FAKE_SUBSURFACE
 	vViewDir = normalize(worldPosition.xyz - cameraPosition.xyz);
@@ -51,6 +52,7 @@ void main() {
 	#endif
 
 	#ifdef CAUSTIC
+	vWorldPos = worldPosition.xyz;
 	vInwardFacing = dot(normalize(position), normal);
 	#endif
 }

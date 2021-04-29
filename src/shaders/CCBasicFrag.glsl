@@ -17,7 +17,6 @@ uniform float diffuseTexMult;
 #include <envmap_common_pars_fragment>
 #include <envmap_pars_fragment>
 #include <cube_uv_reflection_fragment>
-@import ./FogFragPars;
 #include <specularmap_pars_fragment>
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
@@ -29,7 +28,11 @@ uniform vec3 subsurfacecolor;
 varying vec3 vNormal;
 #endif
 
+#ifdef CAUSTIC
 varying float vInwardFacing;
+varying vec3 vWorldPos;
+uniform float timeMsec;
+#endif
 
 void main() {
 	#include <clipping_planes_fragment>
@@ -98,7 +101,6 @@ void main() {
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a);
 
 	#include <encodings_fragment>
-	@import ./FogFrag;
 	#include <premultiplied_alpha_fragment>
 	#include <dithering_fragment>
 

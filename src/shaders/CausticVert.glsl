@@ -3,7 +3,6 @@ varying vec2 vUv;
 uniform float timeMsec;
 varying vec3 vWorldPos;
 varying vec3 vViewDir;
-varying vec3 vNormal;
 uniform float alphaVal;
 mat4 rotationMatrix(vec3 axis, float angle) {
     axis = normalize(axis);
@@ -28,7 +27,6 @@ void main() {
   vWorldPos = worldPosition.xyz;
   vWorldPos.x += 20.0;
   vWorldPos.z += 20.0;
-  vNormal = normal;
 
   vec4 mvPosition = viewMatrix * worldPosition;
   vViewDir = normalize(cameraPosition.xyz - worldPosition.xyz);
