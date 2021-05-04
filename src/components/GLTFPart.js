@@ -1,6 +1,10 @@
 var LOADING_MODELS = {};
 var MODELS = {};
 
+
+import { KTX2Loader } from 'super-three/examples/jsm/loaders/KTX2Loader.js';
+
+
 const GLTFPart = {
   schema: {
     buffer: { default: true },
@@ -44,12 +48,25 @@ const GLTFPart = {
 
     // Not yet fetching, fetch it.
     LOADING_MODELS[this.data.src] = new Promise(function (resolve) {
+      // const loadingManager = document.querySelector('a-assets').fileLoader.manager
+      const renderer = document.querySelector('a-scene').renderer;
+
+      console.log('[D] renderer', renderer)
+    
       const loader = new THREE.GLTFLoader();
 
-      const dracoLoader = new THREE.DRACOLoader();
-      dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+      const ktx2Loader = new KTX2Loader();
+      ktx2Loader.setTranscoderPath('assets/libs/basis/');
+      ktx2Loader.detectSupport( renderer );
+      loader.setKTX2Loader(ktx2Loader)
 
-      loader.setDRACOLoader(dracoLoader);
+      // basisLoader.detectSupport(renderer);
+      // loadingManager.addHandler(/\.ktx2$/i, ktx2Loader);
+
+
+      // const dracoLoader = new THREE.DRACOLoader();
+      // dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
+      // loader.setDRACOLoader(dracoLoader);
 
       loader.load(
         self.data.src,
