@@ -12,7 +12,23 @@ export default {
   init: function () {
     this.scene = this.el.sceneEl;
     this.renderer = document.querySelector('a-scene').renderer;
-    const cubeRenderTarget = new THREE.WebGLCubeRenderTarget( 1024, { format: THREE.RGBFormat, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter } );
+    this.texSize = 1024;
+    if ("xr" in navigator) {
+      navigator.xr.isSessionSupported("immersive-vr").then((supported) => {
+        if (supported) {
+          this.texSize = 256;
+          this.initTex();
+        } else {
+          this.initTex();
+        }
+      });
+    } else {
+      this.initTex();
+    }
+  },
+
+  initTex: function() {
+    const cubeRenderTarget = new THREE.WebGLCubeRenderTarget( this.texSize, { format: THREE.RGBFormat, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter } );
     // Create cube camera
     this.cubeCamera = new THREE.CubeCamera( 1, 100000, cubeRenderTarget );
     this.el.object3D.add(this.cubeCamera);
@@ -36,14 +52,17 @@ export default {
       this.mesh.material.vertexColors = false;
       this.shouldEmitEvent = true;
     });
+    this.update();
   },
 
   update: function () {
-    this.mat.color = new THREE.Color(this.data.color);
-    this.mat.roughness = this.data.roughness;
-    this.mat.metalness = this.data.metalness;
-    this.mat.reflectivity = this.data.reflectivity;
-    this.mat.envMapIntensity = this.data.envMapIntensity;
+    if(this.mat) {
+      this.mat.color = new THREE.Color(this.data.color);
+      this.mat.roughness = this.data.roughness;
+      this.mat.metalness = this.data.metalness;
+      this.mat.reflectivity = this.data.reflectivity;
+      this.mat.envMapIntensity = this.data.envMapIntensity;
+    }
   },
   
   tick: function (time) {
