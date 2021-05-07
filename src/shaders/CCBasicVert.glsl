@@ -20,13 +20,13 @@ varying float vInwardFacing;
 void main() {
 	#include <uv_vertex>
 
-	#include <uv2_vertex>
+	// #include <uv2_vertex>
 	#include <color_vertex>
-	#include <skinbase_vertex>
+	// #include <skinbase_vertex>
 
 	#include <begin_vertex>
-	#include <morphtarget_vertex>
-	#include <skinning_vertex>
+	// #include <morphtarget_vertex>
+	// #include <skinning_vertex>
 	//#include <project_vertex>
 	//#include <worldpos_vertex>
 
@@ -39,10 +39,10 @@ void main() {
 	vec4 mvPosition = viewMatrix * worldPosition;
 
 	gl_Position = projectionMatrix * mvPosition;
-	#include <logdepthbuf_vertex>
+	// #include <logdepthbuf_vertex>
 
-	#include <clipping_planes_vertex>
-	#include <envmap_vertex>
+	// #include <clipping_planes_vertex>
+	// #include <envmap_vertex>
 	@import ./FogVert;
 
 	#ifdef FAKE_SUBSURFACE

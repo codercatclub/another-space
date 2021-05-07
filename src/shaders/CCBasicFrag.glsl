@@ -32,9 +32,9 @@ varying vec3 vNormal;
 varying float vInwardFacing;
 
 void main() {
-	#include <clipping_planes_fragment>
+	// #include <clipping_planes_fragment>
 	vec4 diffuseColor = vec4( diffuse, opacity );
-	#include <logdepthbuf_fragment>
+	// #include <logdepthbuf_fragment>
 
 #ifdef USE_MAP
  	vec4 texelColor = texture2D( map, vUv );
@@ -78,6 +78,7 @@ void main() {
 	diffuseColor.a *= 1.0 - l_coef*d_coef - 0.1*d_coef;
 	reflectedLight.directDiffuse.rgb += 0.2*d_coef * l_coef * subsurfacecolor;
 	reflectedLight.directDiffuse.rgb += 0.1*d_coef*(1.0-l_coef)*subsurfacecolor;
+	if ( diffuseColor.a < 0.5 ) discard;
 #endif
 
 
@@ -99,8 +100,8 @@ void main() {
 
 	#include <encodings_fragment>
 	@import ./FogFrag;
-	#include <premultiplied_alpha_fragment>
-	#include <dithering_fragment>
+	// #include <premultiplied_alpha_fragment>
+	// #include <dithering_fragment>
 
-	if ( diffuseColor.a < 0.5 ) discard;
+	
 }

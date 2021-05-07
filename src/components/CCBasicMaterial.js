@@ -48,6 +48,25 @@ export default {
         break;
     }
 
+
+    if ("xr" in navigator) {
+      navigator.xr.isSessionSupported("immersive-vr").then((supported) => {
+        if (supported) {
+          //undefine caustics
+          this.data.caustic = false;
+          this.basicMats.forEach((mat) => {
+            if(mat.defines.CAUSTIC !== null) {
+              delete mat.defines.CAUSTIC;
+            }
+          })
+
+          if(this.data.fakeSubsurface >0){
+            //just turn off
+            this.el.setAttribute("visible",false);
+          }
+        }
+      });
+    }
     //push atleast one
     let mat = this.createMaterial(this.materialOptions);
 
