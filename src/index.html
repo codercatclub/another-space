@@ -178,7 +178,13 @@
           }
         });
       } else {
-        aAssetItem.setAttribute("src", "assets/models/env.glb")
+        //check if mobile
+        let mql = window.matchMedia("(max-width: 768px)");
+        if (mql.matches) {
+          aAssetItem.setAttribute("src", "assets/models/env-ktx.glb")
+        } else {
+          aAssetItem.setAttribute("src", "assets/models/env.glb")
+        }
         assets.appendChild(aAssetItem)
       }
 

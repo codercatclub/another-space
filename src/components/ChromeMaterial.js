@@ -12,7 +12,12 @@ export default {
   init: function () {
     this.scene = this.el.sceneEl;
     this.renderer = document.querySelector('a-scene').renderer;
-    this.texSize = 1024;
+    let mql = window.matchMedia("(max-width: 768px)");
+    if (mql.matches) {
+      this.texSize = 256;
+    } else {
+      this.texSize = 1024;
+    }
     if ("xr" in navigator) {
       navigator.xr.isSessionSupported("immersive-vr").then((supported) => {
         if (supported) {
